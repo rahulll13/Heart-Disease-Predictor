@@ -965,9 +965,7 @@ st.markdown("""
         </div>
     </div>
     <hr style="border-color: rgba(255,255,255,0.3); margin: 20px 0;">
-    <p><strong>© 2024 OnePersonAI Technologies</strong><br>
-    <em>Advancing healthcare through artificial intelligence</em></p>
-    <small>For technical support: support@onepersonai.com | Medical emergencies: Call 911</small>
+    <p>For technical support: support@onepersonai.com | Medical emergencies: Call 911</p>
 </div>
 """, unsafe_allow_html=True)
 
