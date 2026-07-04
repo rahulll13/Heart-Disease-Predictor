@@ -272,7 +272,7 @@ st.markdown("""
 <div class="main-header fade-in-up">
     <h1>Heart Shield 🛡️</h1>
     <p>An Advanced AI-Powered Early Heart Disease Risk Predictor</p>
-    <small>Developed by Rahul Kumar Sinha</small>
+    <small>Developer: Rahul Kumar Sinha</small>
 </div>
 """, unsafe_allow_html=True)
 
