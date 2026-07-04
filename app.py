@@ -30,7 +30,7 @@ st.markdown("""
 <style>
     /* Global Styles */
     .stApp {
-        background: #f8f9fa; /* Clean, light minimalist background */
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         font-family: 'Poppins', sans-serif;
     }
     
@@ -97,7 +97,6 @@ st.markdown("""
         border: none;
         position: relative;
         overflow: hidden;
-        color: #2d3436; /* Forces text to be dark gray for readability */
     }
     
     .info-box {
@@ -155,8 +154,8 @@ st.markdown("""
     
     /* Sidebar Styles */
     .css-1d391kg {
-        background: #ffffff;
-        border-right: 1px solid #e0e0e0;
+        background: linear-gradient(180deg, #f8f9ff 0%, #e8eaf6 100%);
+        border-right: 3px solid #667eea;
     }
     
     .css-1lcbmhc {
