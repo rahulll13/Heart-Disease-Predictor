@@ -723,210 +723,6 @@ if predict_button:
             st.pyplot(fig)
             plt.close(fig)
 
-            # Fixed SHAP Explainability Section
-            st.markdown("---")
-            st.markdown("### 💡 AI Decision Explanation (SHAP Analysis)")
-            st.markdown("""
-                This analysis shows how each of your medical parameters influenced the AI's prediction.
-                **Red bars** increase heart disease risk, **Blue bars** decrease risk.
-                The magnitude shows the strength of each factor's influence.
-            """)
-
-            try:
-                # Ensure we have the correct feature names
-                feature_names = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 
-                               'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
-                
-                # Verify dimensions match
-                if scaled_input.shape[1] != len(feature_names):
-                    st.error(f"Feature dimension mismatch: Expected {len(feature_names)}, got {scaled_input.shape[1]}")
-                    st.stop()
-                
-                if X_train_scaled_sample.shape[1] != len(feature_names):
-                    st.error(f"Background data dimension mismatch: Expected {len(feature_names)}, got {X_train_scaled_sample.shape[1]}")
-                    st.stop()
-                
-                # Create SHAP explainer with proper model wrapper
-                def model_predict_proba_wrapper(X):
-                    """Wrapper to ensure consistent output format"""
-                    proba = model.predict_proba(X)
-                    return proba
-                
-                # Use KernelExplainer with the wrapper
-                explainer = shap.KernelExplainer(model_predict_proba_wrapper, X_train_scaled_sample)
-                
-                # Calculate SHAP values
-                shap_values = explainer.shap_values(scaled_input)
-                
-                # Handle different SHAP output formats
-                if isinstance(shap_values, list) and len(shap_values) == 2:
-                    # Binary classification - use class 1 (heart disease) SHAP values
-                    shap_values_to_plot = shap_values[1][0]  # First sample, class 1
-                    expected_value = explainer.expected_value[1]
-                elif isinstance(shap_values, np.ndarray):
-                    # Single output format
-                    shap_values_to_plot = shap_values[0]
-                    expected_value = explainer.expected_value
-                else:
-                    st.error("Unexpected SHAP values format")
-                    st.stop()
-                
-                # Verify dimensions before creating explanation
-                if len(shap_values_to_plot) != len(feature_names):
-                    st.error(f"SHAP values dimension mismatch: Expected {len(feature_names)}, got {len(shap_values_to_plot)}")
-                    st.stop()
-                
-                if len(input_df.iloc[0].values) != len(feature_names):
-                    st.error(f"Input data dimension mismatch: Expected {len(feature_names)}, got {len(input_df.iloc[0].values)}")
-                    st.stop()
-                
-                # Create properly formatted explanation object
-                explanation = shap.Explanation(
-                    values=shap_values_to_plot,
-                    base_values=expected_value,
-                    data=input_df.iloc[0].values,
-                    feature_names=feature_names
-                )
-                
-                # Display SHAP force plot
-                try:
-                    streamlit_shap.st_shap(
-                        shap.plots.force(explanation), 
-                        height=250, 
-                        width=1200
-                    )
-                except Exception as shap_plot_error:
-                    st.warning("SHAP force plot unavailable. Showing alternative explanation.")
-                    
-                    # Alternative: Create manual SHAP interpretation
-                    st.markdown("#### Feature Impact Analysis")
-                    
-                    # Create DataFrame for manual display
-                    shap_df = pd.DataFrame({
-                        'Feature': feature_names,
-                        'Your Value': input_df.iloc[0].values,
-                        'SHAP Impact': shap_values_to_plot,
-                        'Raw Input': [f"{raw_data[name]}" for name in feature_names]
-                    })
-                    
-                    # Sort by absolute SHAP impact
-                    shap_df['Abs_Impact'] = np.abs(shap_df['SHAP Impact'])
-                    shap_df = shap_df.sort_values('Abs_Impact', ascending=False)
-                    
-                    # Display top features
-                    st.markdown("**Top 5 Most Influential Features:**")
-                    for idx, row in shap_df.head().iterrows():
-                        impact_direction = "increases" if row['SHAP Impact'] > 0 else "decreases"
-                        color = "🔴" if row['SHAP Impact'] > 0 else "🔵"
-                        st.write(f"{color} **{row['Feature']}** ({row['Raw Input']}): {impact_direction} risk by {abs(row['SHAP Impact']):.3f}")
-                
-            except Exception as shap_error:
-                st.error(f"SHAP analysis unavailable: {str(shap_error)}")
-                st.info("This might be due to model compatibility or data format issues. The prediction results above remain valid.")
-            
-            # Enhanced Recommendations
-            st.markdown("---")
-            st.markdown("### 💡 Personalized Health Recommendations")
-            
-            if prediction[0] == 0:
-                st.markdown("""
-                <div class="success-box">
-                    <h4>✅ Maintain Your Heart-Healthy Lifestyle</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div>
-                            <h5>🏃‍♂️ Physical Activity</h5>
-                            <ul>
-                                <li>Continue regular exercise (150 min/week)</li>
-                                <li>Include both cardio and strength training</li>
-                                <li>Daily walking for at least 30 minutes</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>🥗 Nutrition</h5>
-                            <ul>
-                                <li>Mediterranean or DASH diet</li>
-                                <li>Limit sodium to <2300mg/day</li>
-                                <li>Increase fruits, vegetables, whole grains</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>🩺 Health Monitoring</h5>
-                            <ul>
-                                <li>Annual cardiac check-up</li>
-                                <li>Monitor BP, cholesterol yearly</li>
-                                <li>Maintain healthy weight (BMI 18.5-24.9)</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>🧘‍♀️ Lifestyle</h5>
-                            <ul>
-                                <li>Stress management techniques</li>
-                                <li>Quality sleep (7-9 hours)</li>
-                                <li>Avoid smoking, limit alcohol</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                st.markdown("""
-                <div class="danger-box">
-                    <h4>🚨 URGENT - Immediate Action Plan</h4>
-                    <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; margin: 10px 0;">
-                        <h5>🏥 Immediate Medical Steps (Within 1-2 weeks)</h5>
-                        <ul>
-                            <li><strong>Schedule cardiology consultation immediately</strong></li>
-                            <li>Request comprehensive cardiac evaluation</li>
-                            <li>Get ECG, echocardiogram, stress test</li>
-                            <li>Blood work: lipid panel, glucose, inflammatory markers</li>
-                        </ul>
-                        
-                        <h5>💊 Potential Medical Interventions (Doctor's discretion)</h5>
-                        <ul>
-                            <li>Blood pressure medication if hypertensive</li>
-                            <li>Statin therapy for high cholesterol</li>
-                            <li>Aspirin therapy (if no contraindications)</li>
-                            <li>Diabetes management if applicable</li>
-                        </ul>
-                        
-                        <h5>🚨 Emergency Warning Signs - Call 911 Immediately</h5>
-                        <ul>
-                            <li>Severe chest pain or pressure</li>
-                            <li>Pain radiating to arm, jaw, or back</li>
-                            <li>Severe shortness of breath</li>
-                            <li>Nausea with chest discomfort</li>
-                            <li>Cold sweats, dizziness, fainting</li>
-                        </ul>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            # Risk Factor Modification Guide
-            st.markdown("### 📋 Specific Risk Factor Modifications")
-            
-            modification_col1, modification_col2 = st.columns(2)
-            
-            with modification_col1:
-                st.markdown("""
-                **🎯 Primary Prevention Targets:**
-                - **Blood Pressure:** <130/80 mm Hg
-                - **LDL Cholesterol:** <100 mg/dl (high risk: <70)
-                - **HDL Cholesterol:** >40 mg/dl (men), >50 mg/dl (women)
-                - **Triglycerides:** <150 mg/dl
-                - **Blood Glucose:** <126 mg/dl fasting
-                - **BMI:** 18.5-24.9 kg/m²
-                """)
-            
-            with modification_col2:
-                st.markdown("""
-                **⚠️ Critical Warning Signs to Monitor:**
-                - New or worsening chest pain
-                - Unexplained shortness of breath
-                - Irregular heartbeat or palpitations
-                - Excessive fatigue with activity
-                - Swelling in legs, ankles, feet
-                - Dizziness or fainting spells
-                """)
     
     except Exception as e:
         st.error(f"❌ Analysis error occurred: {str(e)}")
@@ -947,9 +743,9 @@ with st.expander("📋 View Technical Data"):
 # --- Company Footer ---
 st.markdown("""
 <div class="company-footer fade-in-up">
-    <div class="company-logo">Heart Shield 🛡️</div>
+    <div class="company-logo">OnePersonAI</div>
     <h4>🏥 Advanced Healthcare AI Solutions</h4>
-    <p><strong>Heart Shield v2.0</strong> - Powered by cutting-edge machine learning algorithms</p>
+    <p><strong>CardioAI Predictor v2.0</strong> - Powered by cutting-edge machine learning algorithms</p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
         <div>
             <h5>🔬 Technology</h5>
@@ -965,8 +761,9 @@ st.markdown("""
         </div>
     </div>
     <hr style="border-color: rgba(255,255,255,0.3); margin: 20px 0;">
-    <p><strong>© 2026 Built by Rahul Kumar Sinha</strong></p>
-    <small>Medical emergencies: Call 911</small>
+    <p><strong>© 2024 OnePersonAI Technologies</strong><br>
+    <em>Advancing healthcare through artificial intelligence</em></p>
+    <small>For technical support: support@onepersonai.com | Medical emergencies: Call 911</small>
 </div>
 """, unsafe_allow_html=True)
 
