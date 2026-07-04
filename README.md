@@ -205,15 +205,7 @@ Heart Shield follows a **Privacy-First** approach.
 
 ## 🏠 Home & Patient Data Entry
 
-_Add screenshot here_
-
-Example:
-
-```
-assets/home.png
-```
-
----
+![Home Screen](https://raw.githubusercontent.com/rahulll13/Heart-Disease-Predictor/main/assets/Home.png.png)
 
 ## 📊 Prediction Results
 
