@@ -209,25 +209,13 @@ Heart Shield follows a **Privacy-First** approach.
 
 ## 📊 Prediction Results
 
-_Add screenshot here_
-
-Example:
-
-```
-assets/prediction.png
-```
+![Prediction Results](https://github.com/rahulll13/Heart-Disease-Predictor/blob/main/assets/prediction.png.png)
 
 ---
 
 ## ℹ️ About the Application
 
-_Add screenshot here_
-
-Example:
-
-```
-assets/about.png
-```
+![About Application ](https://github.com/rahulll13/Heart-Disease-Predictor/blob/main/assets/about.png.png)
 
 ---
 
@@ -316,16 +304,9 @@ Passionate about building AI-driven solutions that solve real-world problems thr
 
 https://github.com/rahulll13
 
-**LinkedIn**
+**Email**
 
-https://www.linkedin.com/in/rahul-kumar-sinha
-
-**LeetCode**
-
-https://leetcode.com/
-
-*(Replace with your profile URL.)*
-
+sinha.rahul2318@gmail.com
 ---
 
 ## ⭐ Support
