@@ -18,7 +18,7 @@ import streamlit_shap
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="OnePersonAI - Heart Disease Predictor",
+    page_title="Heart Disease Predictor",
     page_icon="🫀",
     layout="centered",
     initial_sidebar_state="expanded"
@@ -288,7 +288,7 @@ st.markdown("""
 # --- About Section ---
 st.markdown("""
 <div class="info-box fade-in-up">
-    <h4>🏥 About CardioAI Predictor</h4>
+    <h4>🏥 About HeartShield AI/h4>
     <p>Our advanced machine learning system analyzes 13 key medical parameters to assess heart disease risk. This tool uses sophisticated algorithms trained on clinical data to provide risk assessment insights.</p>
     <p><strong>Features:</strong> Real-time risk analysis, SHAP explainability, personalized recommendations, and comprehensive risk factor identification.</p>
 </div>
