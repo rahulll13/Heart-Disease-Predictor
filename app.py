@@ -270,9 +270,9 @@ st.markdown("""
 # --- Professional Header ---
 st.markdown("""
 <div class="main-header fade-in-up">
-    <h1>🫀 CardioAI Predictor</h1>
-    <p>Advanced AI-Powered Heart Disease Risk Assessment</p>
-    <small>Powered by OnePersonAI Technologies</small>
+    <h1>Heart Shield 🛡️</h1>
+    <p>An Advanced AI-Powered Early Heart Disease Risk Predictor</p>
+    <small>Developed by Rahul Kumar Sinha</small>
 </div>
 """, unsafe_allow_html=True)
 
