@@ -18,7 +18,7 @@ import streamlit_shap
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="OnePersonAI - Heart Disease Predictor",
+    page_title="Heart Disease Predictor",
     page_icon="🫀",
     layout="centered",
     initial_sidebar_state="expanded"
@@ -270,9 +270,9 @@ st.markdown("""
 # --- Professional Header ---
 st.markdown("""
 <div class="main-header fade-in-up">
-    <h1>🫀 CardioAI Predictor</h1>
-    <p>Advanced AI-Powered Heart Disease Risk Assessment</p>
-    <small>Powered by OnePersonAI Technologies</small>
+    <h1>Heart Shield 🛡️</h1>
+    <p>An Advanced AI-Powered Early Heart Disease Risk Predictor</p>
+    <small>Developer: Rahul Kumar Sinha</small>
 </div>
 """, unsafe_allow_html=True)
 
@@ -287,10 +287,10 @@ st.markdown("""
 
 # --- About Section ---
 st.markdown("""
-<div class="info-box fade-in-up">
-    <h4>🏥 About CardioAI Predictor</h4>
-    <p>Our advanced machine learning system analyzes 13 key medical parameters to assess heart disease risk. This tool uses sophisticated algorithms trained on clinical data to provide risk assessment insights.</p>
-    <p><strong>Features:</strong> Real-time risk analysis, SHAP explainability, personalized recommendations, and comprehensive risk factor identification.</p>
+<div class="fade-in-up" style="background-color: #ffffff; color: #2d3436; padding: 25px; border-radius: 16px; margin: 20px 0; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); border-left: 5px solid #2a5298;">
+    <h4 style="color: #1e3c72; font-weight: 700; margin-bottom: 15px;">🏥 About Heart Shield</h4>
+    <p style="font-weight: 500; line-height: 1.6;">Our advanced machine learning system analyzes 13 key medical parameters to assess heart disease risk. This tool uses sophisticated algorithms trained on clinical data to provide risk assessment insights.</p>
+    <p style="font-weight: 500; line-height: 1.6;"><strong>Features:</strong> Real-time risk analysis, personalized predictions, and comprehensive risk factor identification.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -455,130 +455,7 @@ with col3:
     - **Exercise Angina:** {}
     - **ST Depression:** {}
     """.format(raw_data['restecg'], raw_data['exang'], raw_data['oldpeak']))
-
-# --- Enhanced Risk Assessment ---
-def calculate_comprehensive_risk_score(data):
-    """Enhanced risk calculation with more factors"""
-    risk_score = 0
-    risk_factors = []
-    protective_factors = []
     
-    # Age risk
-    if data['age'] > 65:
-        risk_score += 3
-        risk_factors.append(f"Advanced age ({data['age']} years) - High risk")
-    elif data['age'] > 55:
-        risk_score += 2
-        risk_factors.append(f"Elevated age ({data['age']} years) - Moderate risk")
-    elif data['age'] < 40:
-        protective_factors.append(f"Young age ({data['age']} years) - Protective")
-    
-    # Gender risk
-    if data['sex'] == 'Male':
-        risk_score += 1
-        risk_factors.append("Male gender (statistically higher risk)")
-    else:
-        protective_factors.append("Female gender (lower pre-menopausal risk)")
-    
-    # Chest pain assessment
-    if data['cp'] == 'Asymptomatic':
-        risk_score += 3
-        risk_factors.append("Asymptomatic presentation (concerning)")
-    elif data['cp'] == 'Typical Angina':
-        risk_score += 2
-        risk_factors.append("Typical angina pattern")
-    
-    # Blood pressure
-    if data['trestbps'] > 160:
-        risk_score += 3
-        risk_factors.append(f"Severe hypertension ({data['trestbps']} mm Hg)")
-    elif data['trestbps'] > 140:
-        risk_score += 2
-        risk_factors.append(f"High blood pressure ({data['trestbps']} mm Hg)")
-    elif data['trestbps'] < 120:
-        protective_factors.append(f"Optimal blood pressure ({data['trestbps']} mm Hg)")
-    
-    # Cholesterol
-    if data['chol'] > 300:
-        risk_score += 3
-        risk_factors.append(f"Very high cholesterol ({data['chol']} mg/dl)")
-    elif data['chol'] > 240:
-        risk_score += 2
-        risk_factors.append(f"High cholesterol ({data['chol']} mg/dl)")
-    elif data['chol'] < 200:
-        protective_factors.append(f"Optimal cholesterol ({data['chol']} mg/dl)")
-    
-    # Heart rate response
-    expected_max_hr = 220 - data['age']
-    if data['thalach'] < expected_max_hr * 0.6:
-        risk_score += 2
-        risk_factors.append(f"Poor heart rate response ({data['thalach']} bpm)")
-    elif data['thalach'] > expected_max_hr * 0.85:
-        protective_factors.append(f"Good heart rate response ({data['thalach']} bpm)")
-    
-    # Exercise angina
-    if data['exang'] == 'Yes':
-        risk_score += 2
-        risk_factors.append("Exercise-induced angina (significant)")
-    
-    # ST depression
-    if data['oldpeak'] > 3.0:
-        risk_score += 3
-        risk_factors.append(f"Severe ST depression ({data['oldpeak']})")
-    elif data['oldpeak'] > 1.5:
-        risk_score += 2
-        risk_factors.append(f"Moderate ST depression ({data['oldpeak']})")
-    
-    return risk_score, risk_factors, protective_factors
-
-# Calculate enhanced risk
-risk_score, risk_factors, protective_factors = calculate_comprehensive_risk_score(raw_data)
-
-# Display risk assessment
-st.markdown("## ⚠️ Comprehensive Risk Assessment")
-
-# Risk level determination
-if risk_score >= 8:
-    risk_level = "🚨 VERY HIGH RISK"
-    risk_color = "danger-box"
-    risk_message = "Multiple significant risk factors detected. Immediate cardiology consultation strongly recommended."
-elif risk_score >= 5:
-    risk_level = "⚠️ HIGH RISK"
-    risk_color = "warning-box"
-    risk_message = "Several risk factors present. Medical evaluation advised soon."
-elif risk_score >= 3:
-    risk_level = "🔍 MODERATE RISK"
-    risk_color = "info-box"
-    risk_message = "Some risk factors identified. Regular monitoring recommended."
-else:
-    risk_level = "✅ LOW RISK"
-    risk_color = "success-box"
-    risk_message = "Minimal traditional risk factors. Continue healthy lifestyle."
-
-st.markdown(f"""
-<div class="{risk_color}">
-    <h3>{risk_level}</h3>
-    <h4>Risk Score: {risk_score}/15</h4>
-    <p>{risk_message}</p>
-</div>
-""", unsafe_allow_html=True)
-
-# Display risk and protective factors
-if risk_factors or protective_factors:
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        if risk_factors:
-            st.markdown("### 🚨 Risk Factors")
-            for factor in risk_factors:
-                st.write(f"• {factor}")
-    
-    with col2:
-        if protective_factors:
-            st.markdown("### ✅ Protective Factors")
-            for factor in protective_factors:
-                st.write(f"• {factor}")
-
 # --- Main Prediction Section ---
 st.markdown("---")
 st.markdown("## 🎯 AI-Powered Risk Prediction")
@@ -602,19 +479,19 @@ if predict_button:
             # Main result with enhanced styling
             if prediction[0] == 0:
                 st.markdown("""
-                <div class="success-box">
-                    <h2>🎉 LOW RISK PREDICTION</h2>
-                    <h3>AI Assessment: Lower Probability of Heart Disease</h3>
-                    <p>The machine learning model indicates a lower likelihood of heart disease based on your current parameters. However, continue monitoring your health and maintaining healthy habits.</p>
+                <div class="success-box" style="color: #155724;">
+                    <h2 style="color: #155724;">🎉 LOW RISK PREDICTION</h2>
+                    <h3 style="color: #155724;">AI Assessment: Lower Probability of Heart Disease</h3>
+                    <p style="color: #155724;">The machine learning model indicates a lower likelihood of heart disease based on your current parameters. However, continue monitoring your health and maintaining healthy habits.</p>
                 </div>
                 """, unsafe_allow_html=True)
                 st.balloons()
             else:
                 st.markdown("""
-                <div class="danger-box">
-                    <h2>🚨 HIGH RISK PREDICTION</h2>
-                    <h3>AI Assessment: Higher Probability of Heart Disease</h3>
-                    <p>The model indicates elevated risk factors. <strong>Please consult a cardiologist promptly</strong> for comprehensive evaluation and appropriate medical care.</p>
+                <div class="danger-box" style="color: #721c24;">
+                    <h2 style="color: #721c24;">🚨 HIGH RISK PREDICTION</h2>
+                    <h3 style="color: #721c24;">AI Assessment: Higher Probability of Heart Disease</h3>
+                    <p style="color: #721c24;">The model indicates elevated risk factors. <strong>Please consult a cardiologist promptly</strong> for comprehensive evaluation and appropriate medical care.</p>
                 </div>
                 """, unsafe_allow_html=True)
                 st.snow()
@@ -657,276 +534,6 @@ if predict_button:
                     value=f"{confidence:.1f}%",
                     delta=confidence_level
                 )
-            
-            # Enhanced visualization
-            st.markdown("### 📈 Risk Visualization Dashboard")
-            
-            fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 10))
-            
-            # Probability bar chart
-            categories = ['No Disease', 'Heart Disease']
-            probabilities = [no_disease_prob, disease_prob]
-            colors = ['#4CAF50', '#F44336']
-            
-            bars = ax1.bar(categories, probabilities, color=colors, alpha=0.8, edgecolor='white', linewidth=2)
-            
-            for bar, prob in zip(bars, probabilities):
-                height = bar.get_height()
-                ax1.text(bar.get_x() + bar.get_width()/2., height + 1,
-                        f'{prob:.1f}%', ha='center', va='bottom', fontsize=12, fontweight='bold')
-            
-            ax1.set_ylabel('Probability (%)', fontweight='bold')
-            ax1.set_title('Heart Disease Risk Prediction', fontweight='bold', fontsize=14)
-            ax1.set_ylim(0, 110)
-            ax1.grid(axis='y', alpha=0.3, linestyle='--')
-            ax1.spines['top'].set_visible(False)
-            ax1.spines['right'].set_visible(False)
-            
-            # Pie chart
-            ax2.pie([no_disease_prob, disease_prob], labels=categories, colors=colors,
-                   autopct='%1.1f%%', startangle=90, textprops={'fontsize': 11, 'fontweight': 'bold'})
-            ax2.set_title('Risk Distribution', fontweight='bold', fontsize=14)
-            
-            # Risk score gauge
-            risk_categories = ['Low\n(0-2)', 'Moderate\n(3-4)', 'High\n(5-7)', 'Very High\n(8+)']
-            risk_values = [max(0, min(2, risk_score)), max(0, min(2, risk_score-2)), 
-                          max(0, min(3, risk_score-4)), max(0, risk_score-7)]
-            risk_colors = ['#4CAF50', '#FF9800', '#FF5722', '#D32F2F']
-            
-            bars3 = ax3.bar(risk_categories, [2, 2, 3, 8], color=risk_colors, alpha=0.3, edgecolor='white')
-            bars3_actual = ax3.bar(risk_categories, risk_values, color=risk_colors, alpha=0.8, edgecolor='white', linewidth=2)
-            
-            ax3.set_ylabel('Risk Score', fontweight='bold')
-            ax3.set_title(f'Your Risk Score: {risk_score}/15', fontweight='bold', fontsize=14)
-            ax3.set_ylim(0, 8)
-            ax3.spines['top'].set_visible(False)
-            ax3.spines['right'].set_visible(False)
-            
-            # Confidence meter
-            confidence_levels = ['Low', 'Moderate', 'High', 'Very High']
-            conf_thresholds = [60, 70, 85, 100]
-            conf_colors = ['#FF5722', '#FF9800', '#4CAF50', '#2E7D32']
-            
-            for i, (level, threshold, color) in enumerate(zip(confidence_levels, conf_thresholds, conf_colors)):
-                alpha = 0.8 if confidence >= (conf_thresholds[i-1] if i > 0 else 0) else 0.3
-                ax4.barh(level, threshold, color=color, alpha=alpha, edgecolor='white', linewidth=2)
-            
-            ax4.axvline(x=confidence, color='black', linestyle='--', linewidth=3, label=f'Your Score: {confidence:.1f}%')
-            ax4.set_xlabel('Confidence (%)', fontweight='bold')
-            ax4.set_title('Model Confidence Level', fontweight='bold', fontsize=14)
-            ax4.set_xlim(0, 100)
-            ax4.legend()
-            ax4.spines['top'].set_visible(False)
-            ax4.spines['right'].set_visible(False)
-            
-            plt.tight_layout()
-            st.pyplot(fig)
-            plt.close(fig)
-
-            # Fixed SHAP Explainability Section
-            st.markdown("---")
-            st.markdown("### 💡 AI Decision Explanation (SHAP Analysis)")
-            st.markdown("""
-                This analysis shows how each of your medical parameters influenced the AI's prediction.
-                **Red bars** increase heart disease risk, **Blue bars** decrease risk.
-                The magnitude shows the strength of each factor's influence.
-            """)
-
-            try:
-                # Ensure we have the correct feature names
-                feature_names = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 
-                               'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
-                
-                # Verify dimensions match
-                if scaled_input.shape[1] != len(feature_names):
-                    st.error(f"Feature dimension mismatch: Expected {len(feature_names)}, got {scaled_input.shape[1]}")
-                    st.stop()
-                
-                if X_train_scaled_sample.shape[1] != len(feature_names):
-                    st.error(f"Background data dimension mismatch: Expected {len(feature_names)}, got {X_train_scaled_sample.shape[1]}")
-                    st.stop()
-                
-                # Create SHAP explainer with proper model wrapper
-                def model_predict_proba_wrapper(X):
-                    """Wrapper to ensure consistent output format"""
-                    proba = model.predict_proba(X)
-                    return proba
-                
-                # Use KernelExplainer with the wrapper
-                explainer = shap.KernelExplainer(model_predict_proba_wrapper, X_train_scaled_sample)
-                
-                # Calculate SHAP values
-                shap_values = explainer.shap_values(scaled_input)
-                
-                # Handle different SHAP output formats
-                if isinstance(shap_values, list) and len(shap_values) == 2:
-                    # Binary classification - use class 1 (heart disease) SHAP values
-                    shap_values_to_plot = shap_values[1][0]  # First sample, class 1
-                    expected_value = explainer.expected_value[1]
-                elif isinstance(shap_values, np.ndarray):
-                    # Single output format
-                    shap_values_to_plot = shap_values[0]
-                    expected_value = explainer.expected_value
-                else:
-                    st.error("Unexpected SHAP values format")
-                    st.stop()
-                
-                # Verify dimensions before creating explanation
-                if len(shap_values_to_plot) != len(feature_names):
-                    st.error(f"SHAP values dimension mismatch: Expected {len(feature_names)}, got {len(shap_values_to_plot)}")
-                    st.stop()
-                
-                if len(input_df.iloc[0].values) != len(feature_names):
-                    st.error(f"Input data dimension mismatch: Expected {len(feature_names)}, got {len(input_df.iloc[0].values)}")
-                    st.stop()
-                
-                # Create properly formatted explanation object
-                explanation = shap.Explanation(
-                    values=shap_values_to_plot,
-                    base_values=expected_value,
-                    data=input_df.iloc[0].values,
-                    feature_names=feature_names
-                )
-                
-                # Display SHAP force plot
-                try:
-                    streamlit_shap.st_shap(
-                        shap.plots.force(explanation), 
-                        height=250, 
-                        width=1200
-                    )
-                except Exception as shap_plot_error:
-                    st.warning("SHAP force plot unavailable. Showing alternative explanation.")
-                    
-                    # Alternative: Create manual SHAP interpretation
-                    st.markdown("#### Feature Impact Analysis")
-                    
-                    # Create DataFrame for manual display
-                    shap_df = pd.DataFrame({
-                        'Feature': feature_names,
-                        'Your Value': input_df.iloc[0].values,
-                        'SHAP Impact': shap_values_to_plot,
-                        'Raw Input': [f"{raw_data[name]}" for name in feature_names]
-                    })
-                    
-                    # Sort by absolute SHAP impact
-                    shap_df['Abs_Impact'] = np.abs(shap_df['SHAP Impact'])
-                    shap_df = shap_df.sort_values('Abs_Impact', ascending=False)
-                    
-                    # Display top features
-                    st.markdown("**Top 5 Most Influential Features:**")
-                    for idx, row in shap_df.head().iterrows():
-                        impact_direction = "increases" if row['SHAP Impact'] > 0 else "decreases"
-                        color = "🔴" if row['SHAP Impact'] > 0 else "🔵"
-                        st.write(f"{color} **{row['Feature']}** ({row['Raw Input']}): {impact_direction} risk by {abs(row['SHAP Impact']):.3f}")
-                
-            except Exception as shap_error:
-                st.error(f"SHAP analysis unavailable: {str(shap_error)}")
-                st.info("This might be due to model compatibility or data format issues. The prediction results above remain valid.")
-            
-            # Enhanced Recommendations
-            st.markdown("---")
-            st.markdown("### 💡 Personalized Health Recommendations")
-            
-            if prediction[0] == 0:
-                st.markdown("""
-                <div class="success-box">
-                    <h4>✅ Maintain Your Heart-Healthy Lifestyle</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div>
-                            <h5>🏃‍♂️ Physical Activity</h5>
-                            <ul>
-                                <li>Continue regular exercise (150 min/week)</li>
-                                <li>Include both cardio and strength training</li>
-                                <li>Daily walking for at least 30 minutes</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>🥗 Nutrition</h5>
-                            <ul>
-                                <li>Mediterranean or DASH diet</li>
-                                <li>Limit sodium to <2300mg/day</li>
-                                <li>Increase fruits, vegetables, whole grains</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>🩺 Health Monitoring</h5>
-                            <ul>
-                                <li>Annual cardiac check-up</li>
-                                <li>Monitor BP, cholesterol yearly</li>
-                                <li>Maintain healthy weight (BMI 18.5-24.9)</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>🧘‍♀️ Lifestyle</h5>
-                            <ul>
-                                <li>Stress management techniques</li>
-                                <li>Quality sleep (7-9 hours)</li>
-                                <li>Avoid smoking, limit alcohol</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                st.markdown("""
-                <div class="danger-box">
-                    <h4>🚨 URGENT - Immediate Action Plan</h4>
-                    <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; margin: 10px 0;">
-                        <h5>🏥 Immediate Medical Steps (Within 1-2 weeks)</h5>
-                        <ul>
-                            <li><strong>Schedule cardiology consultation immediately</strong></li>
-                            <li>Request comprehensive cardiac evaluation</li>
-                            <li>Get ECG, echocardiogram, stress test</li>
-                            <li>Blood work: lipid panel, glucose, inflammatory markers</li>
-                        </ul>
-                        
-                        <h5>💊 Potential Medical Interventions (Doctor's discretion)</h5>
-                        <ul>
-                            <li>Blood pressure medication if hypertensive</li>
-                            <li>Statin therapy for high cholesterol</li>
-                            <li>Aspirin therapy (if no contraindications)</li>
-                            <li>Diabetes management if applicable</li>
-                        </ul>
-                        
-                        <h5>🚨 Emergency Warning Signs - Call 911 Immediately</h5>
-                        <ul>
-                            <li>Severe chest pain or pressure</li>
-                            <li>Pain radiating to arm, jaw, or back</li>
-                            <li>Severe shortness of breath</li>
-                            <li>Nausea with chest discomfort</li>
-                            <li>Cold sweats, dizziness, fainting</li>
-                        </ul>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            # Risk Factor Modification Guide
-            st.markdown("### 📋 Specific Risk Factor Modifications")
-            
-            modification_col1, modification_col2 = st.columns(2)
-            
-            with modification_col1:
-                st.markdown("""
-                **🎯 Primary Prevention Targets:**
-                - **Blood Pressure:** <130/80 mm Hg
-                - **LDL Cholesterol:** <100 mg/dl (high risk: <70)
-                - **HDL Cholesterol:** >40 mg/dl (men), >50 mg/dl (women)
-                - **Triglycerides:** <150 mg/dl
-                - **Blood Glucose:** <126 mg/dl fasting
-                - **BMI:** 18.5-24.9 kg/m²
-                """)
-            
-            with modification_col2:
-                st.markdown("""
-                **⚠️ Critical Warning Signs to Monitor:**
-                - New or worsening chest pain
-                - Unexplained shortness of breath
-                - Irregular heartbeat or palpitations
-                - Excessive fatigue with activity
-                - Swelling in legs, ankles, feet
-                - Dizziness or fainting spells
-                """)
     
     except Exception as e:
         st.error(f"❌ Analysis error occurred: {str(e)}")
@@ -947,13 +554,13 @@ with st.expander("📋 View Technical Data"):
 # --- Company Footer ---
 st.markdown("""
 <div class="company-footer fade-in-up">
-    <div class="company-logo">OnePersonAI</div>
+    <div class="company-logo">🛡️ Heart Shield</div>
     <h4>🏥 Advanced Healthcare AI Solutions</h4>
-    <p><strong>CardioAI Predictor v2.0</strong> - Powered by cutting-edge machine learning algorithms</p>
+    <p><strong>Heart Shield v2.0</strong> - Powered by cutting-edge machine learning algorithms</p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
         <div>
             <h5>🔬 Technology</h5>
-            <p>Random Forest ML<br>SHAP Explainability<br>Advanced Risk Scoring</p>
+            <p>Random Forest ML<br>Advanced Risk Scoring<br>Secure Analysis</p>
         </div>
         <div>
             <h5>🎯 Accuracy</h5>
@@ -965,9 +572,8 @@ st.markdown("""
         </div>
     </div>
     <hr style="border-color: rgba(255,255,255,0.3); margin: 20px 0;">
-    <p><strong>© 2024 OnePersonAI Technologies</strong><br>
-    <em>Advancing healthcare through artificial intelligence</em></p>
-    <small>For technical support: support@onepersonai.com | Medical emergencies: Call 911</small>
+    <p><strong>© 2026 Built by Rahul Kumar Sinha</strong></p>
+    <small>Medical emergencies: Call 911</small>
 </div>
 """, unsafe_allow_html=True)
 
