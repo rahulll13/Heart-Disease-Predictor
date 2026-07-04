@@ -287,10 +287,10 @@ st.markdown("""
 
 # --- About Section ---
 st.markdown("""
-<div class="info-box fade-in-up">
-    <h4>🏥 About HeartShield AI/h4>
-    <p>Our advanced machine learning system analyzes 13 key medical parameters to assess heart disease risk. This tool uses sophisticated algorithms trained on clinical data to provide risk assessment insights.</p>
-    <p><strong>Features:</strong> Real-time risk analysis, SHAP explainability, personalized recommendations, and comprehensive risk factor identification.</p>
+<div class="fade-in-up" style="background-color: #ffffff; color: #2d3436; padding: 25px; border-radius: 16px; margin: 20px 0; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); border-left: 5px solid #2a5298;">
+    <h4 style="color: #1e3c72; font-weight: 700; margin-bottom: 15px;">🏥 About Heart Shield</h4>
+    <p style="font-weight: 500; line-height: 1.6;">Our advanced machine learning system analyzes 13 key medical parameters to assess heart disease risk. This tool uses sophisticated algorithms trained on clinical data to provide risk assessment insights.</p>
+    <p style="font-weight: 500; line-height: 1.6;"><strong>Features:</strong> Real-time risk analysis, personalized predictions, and comprehensive risk factor identification.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -455,130 +455,7 @@ with col3:
     - **Exercise Angina:** {}
     - **ST Depression:** {}
     """.format(raw_data['restecg'], raw_data['exang'], raw_data['oldpeak']))
-
-# --- Enhanced Risk Assessment ---
-def calculate_comprehensive_risk_score(data):
-    """Enhanced risk calculation with more factors"""
-    risk_score = 0
-    risk_factors = []
-    protective_factors = []
     
-    # Age risk
-    if data['age'] > 65:
-        risk_score += 3
-        risk_factors.append(f"Advanced age ({data['age']} years) - High risk")
-    elif data['age'] > 55:
-        risk_score += 2
-        risk_factors.append(f"Elevated age ({data['age']} years) - Moderate risk")
-    elif data['age'] < 40:
-        protective_factors.append(f"Young age ({data['age']} years) - Protective")
-    
-    # Gender risk
-    if data['sex'] == 'Male':
-        risk_score += 1
-        risk_factors.append("Male gender (statistically higher risk)")
-    else:
-        protective_factors.append("Female gender (lower pre-menopausal risk)")
-    
-    # Chest pain assessment
-    if data['cp'] == 'Asymptomatic':
-        risk_score += 3
-        risk_factors.append("Asymptomatic presentation (concerning)")
-    elif data['cp'] == 'Typical Angina':
-        risk_score += 2
-        risk_factors.append("Typical angina pattern")
-    
-    # Blood pressure
-    if data['trestbps'] > 160:
-        risk_score += 3
-        risk_factors.append(f"Severe hypertension ({data['trestbps']} mm Hg)")
-    elif data['trestbps'] > 140:
-        risk_score += 2
-        risk_factors.append(f"High blood pressure ({data['trestbps']} mm Hg)")
-    elif data['trestbps'] < 120:
-        protective_factors.append(f"Optimal blood pressure ({data['trestbps']} mm Hg)")
-    
-    # Cholesterol
-    if data['chol'] > 300:
-        risk_score += 3
-        risk_factors.append(f"Very high cholesterol ({data['chol']} mg/dl)")
-    elif data['chol'] > 240:
-        risk_score += 2
-        risk_factors.append(f"High cholesterol ({data['chol']} mg/dl)")
-    elif data['chol'] < 200:
-        protective_factors.append(f"Optimal cholesterol ({data['chol']} mg/dl)")
-    
-    # Heart rate response
-    expected_max_hr = 220 - data['age']
-    if data['thalach'] < expected_max_hr * 0.6:
-        risk_score += 2
-        risk_factors.append(f"Poor heart rate response ({data['thalach']} bpm)")
-    elif data['thalach'] > expected_max_hr * 0.85:
-        protective_factors.append(f"Good heart rate response ({data['thalach']} bpm)")
-    
-    # Exercise angina
-    if data['exang'] == 'Yes':
-        risk_score += 2
-        risk_factors.append("Exercise-induced angina (significant)")
-    
-    # ST depression
-    if data['oldpeak'] > 3.0:
-        risk_score += 3
-        risk_factors.append(f"Severe ST depression ({data['oldpeak']})")
-    elif data['oldpeak'] > 1.5:
-        risk_score += 2
-        risk_factors.append(f"Moderate ST depression ({data['oldpeak']})")
-    
-    return risk_score, risk_factors, protective_factors
-
-# Calculate enhanced risk
-risk_score, risk_factors, protective_factors = calculate_comprehensive_risk_score(raw_data)
-
-# Display risk assessment
-st.markdown("## ⚠️ Comprehensive Risk Assessment")
-
-# Risk level determination
-if risk_score >= 8:
-    risk_level = "🚨 VERY HIGH RISK"
-    risk_color = "danger-box"
-    risk_message = "Multiple significant risk factors detected. Immediate cardiology consultation strongly recommended."
-elif risk_score >= 5:
-    risk_level = "⚠️ HIGH RISK"
-    risk_color = "warning-box"
-    risk_message = "Several risk factors present. Medical evaluation advised soon."
-elif risk_score >= 3:
-    risk_level = "🔍 MODERATE RISK"
-    risk_color = "info-box"
-    risk_message = "Some risk factors identified. Regular monitoring recommended."
-else:
-    risk_level = "✅ LOW RISK"
-    risk_color = "success-box"
-    risk_message = "Minimal traditional risk factors. Continue healthy lifestyle."
-
-st.markdown(f"""
-<div class="{risk_color}">
-    <h3>{risk_level}</h3>
-    <h4>Risk Score: {risk_score}/15</h4>
-    <p>{risk_message}</p>
-</div>
-""", unsafe_allow_html=True)
-
-# Display risk and protective factors
-if risk_factors or protective_factors:
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        if risk_factors:
-            st.markdown("### 🚨 Risk Factors")
-            for factor in risk_factors:
-                st.write(f"• {factor}")
-    
-    with col2:
-        if protective_factors:
-            st.markdown("### ✅ Protective Factors")
-            for factor in protective_factors:
-                st.write(f"• {factor}")
-
 # --- Main Prediction Section ---
 st.markdown("---")
 st.markdown("## 🎯 AI-Powered Risk Prediction")
