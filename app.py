@@ -743,13 +743,13 @@ with st.expander("📋 View Technical Data"):
 # --- Company Footer ---
 st.markdown("""
 <div class="company-footer fade-in-up">
-    <div class="company-logo">OnePersonAI</div>
+    <div class="company-logo">🛡️ Heart Shield</div>
     <h4>🏥 Advanced Healthcare AI Solutions</h4>
-    <p><strong>CardioAI Predictor v2.0</strong> - Powered by cutting-edge machine learning algorithms</p>
+    <p><strong>Heart Shield v2.0</strong> - Powered by cutting-edge machine learning algorithms</p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
         <div>
             <h5>🔬 Technology</h5>
-            <p>Random Forest ML<br>SHAP Explainability<br>Advanced Risk Scoring</p>
+            <p>Random Forest ML<br>Advanced Risk Scoring<br>Secure Analysis</p>
         </div>
         <div>
             <h5>🎯 Accuracy</h5>
@@ -761,9 +761,8 @@ st.markdown("""
         </div>
     </div>
     <hr style="border-color: rgba(255,255,255,0.3); margin: 20px 0;">
-    <p><strong>© 2024 OnePersonAI Technologies</strong><br>
-    <em>Advancing healthcare through artificial intelligence</em></p>
-    <small>For technical support: support@onepersonai.com | Medical emergencies: Call 911</small>
+    <p><strong>© 2026 Built by Rahul Kumar Sinha</strong></p>
+    <small>Medical emergencies: Call 911</small>
 </div>
 """, unsafe_allow_html=True)
 
