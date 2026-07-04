@@ -276,7 +276,6 @@ Feel free to use, modify, and distribute this project with proper attribution.
 ## Rahul Kumar Sinha
 
 **B.Tech in Information Technology**  
-**BIT Sindri, Dhanbad**
 
 Passionate about building AI-driven solutions that solve real-world problems through Machine Learning, Full Stack Development, and Intelligent Automation.
 
