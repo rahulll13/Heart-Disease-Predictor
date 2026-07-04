@@ -479,19 +479,19 @@ if predict_button:
             # Main result with enhanced styling
             if prediction[0] == 0:
                 st.markdown("""
-                <div class="success-box">
-                    <h2>🎉 LOW RISK PREDICTION</h2>
-                    <h3>AI Assessment: Lower Probability of Heart Disease</h3>
-                    <p>The machine learning model indicates a lower likelihood of heart disease based on your current parameters. However, continue monitoring your health and maintaining healthy habits.</p>
+                <div class="success-box" style="color: #155724;">
+                    <h2 style="color: #155724;">🎉 LOW RISK PREDICTION</h2>
+                    <h3 style="color: #155724;">AI Assessment: Lower Probability of Heart Disease</h3>
+                    <p style="color: #155724;">The machine learning model indicates a lower likelihood of heart disease based on your current parameters. However, continue monitoring your health and maintaining healthy habits.</p>
                 </div>
                 """, unsafe_allow_html=True)
                 st.balloons()
             else:
                 st.markdown("""
-                <div class="danger-box">
-                    <h2>🚨 HIGH RISK PREDICTION</h2>
-                    <h3>AI Assessment: Higher Probability of Heart Disease</h3>
-                    <p>The model indicates elevated risk factors. <strong>Please consult a cardiologist promptly</strong> for comprehensive evaluation and appropriate medical care.</p>
+                <div class="danger-box" style="color: #721c24;">
+                    <h2 style="color: #721c24;">🚨 HIGH RISK PREDICTION</h2>
+                    <h3 style="color: #721c24;">AI Assessment: Higher Probability of Heart Disease</h3>
+                    <p style="color: #721c24;">The model indicates elevated risk factors. <strong>Please consult a cardiologist promptly</strong> for comprehensive evaluation and appropriate medical care.</p>
                 </div>
                 """, unsafe_allow_html=True)
                 st.snow()
